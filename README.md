@@ -98,13 +98,17 @@ If the artifact is missing, run `python train.py` followed by `python eval.py` f
 
 ## Results
 
-| Metric    | Score  |
-|-----------|--------|
-| Accuracy  | 0.XX   |
-| F1 Score  | 0.XX   |
-| Eval Loss | 0.XX   |
+| Metric                          | Score  |
+|---------------------------------|--------|
+| Accuracy                        | 0.143  |
+| Macro Average F1 Score          | 0.036  |
+| Weighted Average F1 Score       | 0.036  |
+| Macro Average Precision         | 0.020  |
+| Weighted Average Precision      | 0.020  |
+| Macro Average Recall            | 0.143  |
+| Weighted Average Recall         | 0.143  |
 
-*(Fill in your actual scores after training.)*
+Note: Best-performing class is "history_biography" with precision=0.143, recall=1.0, and F1=0.25. The model shows moderate bias toward predicting this genre across the test set. Full classification report available in `eval_report.json`.
 
 ---
 
