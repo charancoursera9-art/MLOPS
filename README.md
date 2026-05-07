@@ -100,6 +100,7 @@ If the artifact is missing, run `python train.py` followed by `python eval.py` f
 
 | Metric                          | Score  |
 |---------------------------------|--------|
+| Eval Loss                       | 1.954  |
 | Accuracy                        | 0.143  |
 | Macro Average F1 Score          | 0.036  |
 | Weighted Average F1 Score       | 0.036  |
