@@ -30,7 +30,7 @@ from utils import MyDataset, build_label_maps, compute_metrics
 
 SAVED_MODEL     = "distilbert-reviews-genres"
 EVAL_REPORT_PATH = "eval_report.json"
-WANDB_PROJECT   = "mlops-assignment2"
+WANDB_PROJECT   = "distilbert-goodreads-genres"
 WANDB_RUN       = "distilbert-eval"
 
 
@@ -40,6 +40,12 @@ WANDB_RUN       = "distilbert-eval"
 
 def load_trained_model_and_tokenizer(saved_model_dir=SAVED_MODEL):
     """Load the locally saved model and tokenizer."""
+    if not os.path.isdir(saved_model_dir):
+        raise FileNotFoundError(
+            f"Saved model directory '{saved_model_dir}' not found. "
+            "Run 'python train.py' successfully first so the model is saved locally, "
+            "then re-run 'python eval.py'."
+        )
     print(f"Loading model from {saved_model_dir} ...")
     model     = DistilBertForSequenceClassification.from_pretrained(saved_model_dir)
     tokenizer = DistilBertTokenizerFast.from_pretrained(saved_model_dir)
@@ -73,7 +79,11 @@ def make_minimal_trainer(model, test_dataset):
 
 
 # ---------------------------------------------------------------------------
-# Main evaluation routine
+# Task 5: Evaluate & Save Results
+# ---------------------------------------------------------------------------
+
+# This script runs final test-set evaluation, logs accuracy/F1/loss to W&B,
+# saves the classification report as JSON, and uploads it as a W&B artifact.
 # ---------------------------------------------------------------------------
 
 def main():
@@ -126,10 +136,10 @@ def main():
     # 9. Upload report as a versioned W&B Artifact
     artifact = wandb.Artifact("eval-report", type="evaluation")
     artifact.add_file(EVAL_REPORT_PATH)
-    wandb.log_artifact(artifact)
+    run.log_artifact(artifact)
     print("Artifact uploaded to W&B.")
 
-    wandb.finish()
+    run.finish()
 
 
 if __name__ == "__main__":
